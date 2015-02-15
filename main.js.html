@@ -1,0 +1,839 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+<title>E:\51\main.js.html</title>
+<meta name="Generator" content="Vim/7.4">
+<meta name="plugin-version" content="vim7.4_v1">
+<meta name="syntax" content="javascript">
+<meta name="settings" content="use_css,pre_wrap,no_foldcolumn,prevent_copy=">
+<meta name="colorscheme" content="none">
+<style type="text/css">
+<!--
+pre { white-space: pre-wrap; font-family: monospace; color: #000000; background-color: #ffffff; }
+body { font-family: monospace; color: #000000; background-color: #ffffff; }
+* { font-size: 1em; }
+.Type { color: #2e8b57; font-weight: bold; }
+.Statement { color: #804040; font-weight: bold; }
+.Comment { color: #0000ff; }
+.Constant { color: #ff00ff; }
+.Special { color: #6a5acd; }
+.Identifier { color: #008080; }
+-->
+</style>
+
+<script type='text/javascript'>
+<!--
+
+-->
+</script>
+</head>
+<body>
+<pre id='vimCodeElement'>
+gquantorSearchEngineVersion=<span class="Constant">'0.9236'</span>;
+quantorSearchEngineLastUpdate=<span class="Constant">'2/6/2015 2:06AM'</span>;
+quantorSearchEngineCopyrightYears=<span class="Constant">'2006-2015'</span>;
+quantorSearchEngineCopyrightLibraryYears=<span class="Constant">'2015'</span>;
+quantorSearchEngineVersionDocRootDir=<span class="Constant">'D:/home/posuti/apache/tomcat-doc'</span>;
+quantorSearchEngineLocalHostSharedFolder=<span class="Constant">'tomcat-doc'</span>;
+quantorSearchAppName=<span class="Constant">'PoSuti'</span>;
+quantorSearchEngineOnlineWebAddr=<span class="Constant">'<a href="http://posuti.org">http://posuti.org</a>'</span>;
+
+
+	<span class="Comment">//////HTTP_PORT=8083;</span>
+	<span class="Comment">//'d:/usr/apache/tomcat/doc/';</span>
+
+
+<span class="Identifier">var</span> t=<span class="Statement">location</span>.href;
+quantorSearchEngine_IsHomePage=
+	-1==t.indexOf(<span class="Constant">'q='</span>);
+quantorSearchPageName =<span class="Constant">'!search.jsp'</span>;
+quantorSearchPageName1=<span class="Constant">'/'</span>+quantorSearchPageName; <span class="Comment">// '/s__earch_.j_sp';</span>
+
+
+	<span class="Comment">// english/russian ////////////////////////</span>
+		bNonStdRez=0;
+		bEnglishDetermViaPathname=<span class="Statement">location</span>.pathname.substring(0,4);
+		<span class="Comment">//alert(bEnglishDetermViaPathname+'@');</span>
+		bEnglishInterface=<span class="Constant">'/en/'</span> == bEnglishDetermViaPathname;
+		<span class="Statement">if</span>(bEnglishInterface)bEnglishInterface=1;
+		<span class="Comment">//alert('bEng='+bEnglishInterface);</span>
+			<span class="Comment">//bNonStdRez; //bNonStandardApplicationVariantForRezonal;</span>
+	<span class="Comment">// english/russian ////////////////////////</span>
+
+bShowHideResultsSources_visible=0;
+sCurrentGoogleQueryRealtime=<span class="Constant">'<a href="http://www.google.com/">http://www.google.com/</a>'</span>;
+
+
+<span class="Comment">//1024x600</span>
+  DI=-22;
+  DL=81;
+  DR=35;<span class="Comment">//25;</span>
+  screenWidth=<span class="Statement">window</span>.screen.availWidth; <span class="Comment">//1024, 1280, etc.</span>
+<span class="Comment">//  alert(screenWidth);</span>
+  <span class="Statement">if</span>(screenWidth==1280)<span class="Identifier">{</span>
+		<span class="Comment">//1280x800</span>
+		DI=-8-7;
+		DL=96+11;
+		<span class="Comment">//DR=70;//тридцатьПять;</span>
+  <span class="Identifier">}</span>
+
+
+
+
+  <span class="Comment">/*</span>
+<span class="Comment">	//`needs work</span>
+<span class="Comment">	// App is English if variant=1;</span>
+<span class="Comment">  */</span>
+
+DQ=<span class="Constant">''</span>;
+DU=<span class="Constant">''</span>;
+d=<span class="Statement">document</span>;
+RUS=<span class="Constant">'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя'</span>;
+p40=<span class="Constant">'                                        '</span>;
+A=<span class="Type">Array</span>();
+I=0;
+sQuery__Global=<span class="Constant">''</span>; <span class="Comment">//core!!</span>
+sQuery__GlobalPlain=<span class="Constant">''</span>;
+sOrigQuery__Global=<span class="Constant">''</span>;
+sQuery__Global__bIfDef=0;
+EMBRACE_A=<span class="Constant">'^^'</span>;<span class="Comment">//'\u001e';</span>
+EMBRACE_B=<span class="Constant">'^_'</span>;<span class="Comment">//'\u001f';</span>
+nCitationsTotal=0;
+searchProceesedTimeMS=0;
+noOfResultsGlobal=0;
+
+
+
+
+<span class="Comment">//*******************************</span>
+<span class="Comment">//***** &lt;encoding scope&gt; ********</span>
+<span class="Comment">//*******************************</span>
+encoding_charList_win1251=<span class="Constant">'ЁЄ«ЇІіґёє»їАБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдежзийклмнопрстуфхцчшщъыьэюя'</span>;
+encoding_charList_utf8=<span class="Constant">'РЃР„В«Р‡Р†С–Т‘С‘С”В»С—РђР‘Р’Р“Р”Р•Р–Р—РР™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©РЄР«Р¬Р­Р®РЇР°Р±РІРіРґРµР¶Р·РёР№РєР»РјРЅРѕРїСЂСЃС‚СѓС„С…С†С‡С€С‰СЉС‹СЊСЌСЋСЏ'</span>;
+encoding_charList_length=75;
+
+<span class="Identifier">function</span> encoding_convWinUtf8To1251(s)<span class="Identifier">{</span>
+<span class="Comment">//	document.write('s={'+s+'}&lt;br&gt;');</span>
+	<span class="Identifier">var</span> sOut=<span class="Constant">''</span>;
+	<span class="Identifier">var</span> l=s.length;
+<span class="Comment">//	alert(l);</span>
+	<span class="Identifier">var</span> i;
+	<span class="Identifier">var</span> jN=encoding_charList_length * 2;
+	<span class="Statement">for</span>(i=0;i&lt;l;i+=2)<span class="Identifier">{</span>
+		<span class="Identifier">var</span> s1=s.substring(i,i+2);
+		<span class="Identifier">var</span> m2a=s1.charCodeAt(0);
+		<span class="Identifier">var</span> m2b=s1.charCodeAt(1);
+<span class="Comment">//		document.write('{s1='+s1+'.'+m2a+'_'+m2b+'}');</span>
+<span class="Comment">//		alert(s1);</span>
+		<span class="Identifier">var</span> j;
+		<span class="Statement">for</span>(j=0;j&lt;jN;j+=2)<span class="Identifier">{</span>
+			<span class="Identifier">var</span> s2=encoding_charList_utf8.substring(j,j+2);
+			<span class="Identifier">var</span> n2a=s2.charCodeAt(0);
+			<span class="Identifier">var</span> n2b=s2.charCodeAt(1);
+<span class="Comment">//		document.write('{s1='+s1+'.'+m2a+'_'+m2b+'}');</span>
+<span class="Comment">//			document.write('«&lt;b&gt;'+n2a+'_'+n2b+'&lt;/b&gt;»&lt;br&gt;');</span>
+<span class="Comment">//			document.write('{s2='+s2+';s1='+s1+'}');</span>
+			<span class="Statement">if</span>(m2a==n2a &amp;&amp; m2b==n2b)<span class="Identifier">{</span>
+				<span class="Identifier">var</span> c=encoding_charList_win1251.charAt(j/2);
+<span class="Comment">//				alert('found: '+c+'; (j='+j+')');</span>
+				sOut+=c;
+			<span class="Identifier">}</span>
+		<span class="Identifier">}</span>
+	<span class="Identifier">}</span>
+<span class="Comment">//	alert(sOut);</span>
+	<span class="Statement">return</span> sOut;
+<span class="Identifier">}</span>
+
+<span class="Comment">//*******************************</span>
+<span class="Comment">//***** &lt;/encoding scope&gt; *******</span>
+<span class="Comment">//*******************************</span>
+
+
+
+
+<span class="Identifier">function</span> w(s)<span class="Identifier">{</span>d.write(s)<span class="Identifier">}</span>
+
+
+<span class="Comment">/*</span>
+<span class="Comment">function queryConv(){</span>
+<span class="Comment">	// processes (core) sQuery__Global</span>
+<span class="Comment">	alert('sQuery__Global='+sQuery__Global);</span>
+<span class="Comment">	</span>
+<span class="Comment">	var s=sQuery__Global;</span>
+<span class="Comment">	s=s.substring(3,s.length-1);</span>
+<span class="Comment">	alert('sQuery__Global='+s);</span>
+<span class="Comment">	sQuery__Global=encoding_convWinUtf8To1251(s);</span>
+<span class="Comment">	alert('sQuery__Global_new='+sQuery__Global);</span>
+<span class="Comment">	</span>
+<span class="Comment">}</span>
+
+<span class="Comment">*/</span>
+
+
+
+<span class="Comment">//alert(location);</span>
+
+
+<span class="Identifier">function</span> bQueryIsDefinition()<span class="Identifier">{</span>
+	<span class="Identifier">var</span> v=sQuery__Global;
+	<span class="Identifier">var</span> n=v.length;
+	<span class="Identifier">var</span> b2notDef=(n&lt;4||v.substr(0,2)!=<span class="Constant">'&quot;!'</span>);
+	<span class="Identifier">var</span> b1notDef=(n&lt;5||v.substr(0,3)!=<span class="Constant">'&quot;д '</span>);
+	<span class="Identifier">var</span> bDef=!b1notDef || !b2notDef;
+<span class="Comment">//	alert(v+' n='+n+' bDef='+bDef);</span>
+	<span class="Statement">return</span> bDef;
+<span class="Identifier">}</span>
+
+
+<span class="Identifier">function</span> separateCharCode(c)<span class="Identifier">{</span>
+	c&gt;848&amp;&amp;(c-=848);
+	<span class="Statement">return</span> c;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> bRusEngUkrLetter(c)<span class="Identifier">{</span>
+	<span class="Statement">return</span> c==<span class="Constant">'_'</span>||(c&gt;=<span class="Constant">'0'</span>&amp;&amp;c&lt;=<span class="Constant">'9'</span>)||(c&gt;=<span class="Constant">'a'</span>&amp;&amp;c&lt;=<span class="Constant">'z'</span>)||(c&gt;=<span class="Constant">'A'</span>&amp;&amp;c&lt;=<span class="Constant">'Z'</span>)|| (c&gt;=<span class="Constant">'а'</span>&amp;&amp;c&lt;=<span class="Constant">'я'</span>)||(c&gt;=<span class="Constant">'А'</span>&amp;&amp;c&lt;=<span class="Constant">'Я'</span>)||c==<span class="Constant">'ё'</span>||c==<span class="Constant">'Ё'</span>||c==<span class="Constant">'і'</span>||c==<span class="Constant">'І'</span>||c==<span class="Constant">'ї'</span>||c==<span class="Constant">'Ї'</span>||c==<span class="Constant">'ґ'</span>||c==<span class="Constant">'Ґ'</span>||c==<span class="Constant">'є'</span>||c==<span class="Constant">'Є'</span>;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> hideIndexPageText()<span class="Identifier">{</span>
+	<span class="Statement">if</span>(!quantorSearchEngine_IsHomePage)<span class="Identifier">{</span>
+<span class="Comment">//		alert(iHomePageHTMLText.innerHTML);</span>
+<span class="Comment">//		iHomePageHTMLText.innerHTML='';</span>
+		iHomePageHTMLText.style.display=<span class="Constant">'none'</span>;
+<span class="Comment">//		alert(iHomePageHTMLText.innerHTML);</span>
+	<span class="Identifier">}</span>
+<span class="Comment">//style.visibility</span>
+<span class="Comment">//iHomePageHTMLText.style.visibility='hidden';</span>
+<span class="Comment">//innerHTML='';</span>
+
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> getGoGoogleLink(thisQuery,bSharp,sFormQuery)<span class="Identifier">{</span>
+<span class="Comment">//		var sRuExtSearch='';</span>
+<span class="Comment">//		sRuExtSearch+='&amp;nbsp;';</span>
+
+		<span class="Identifier">var</span> sSharp=<span class="Constant">'~'</span>;
+		<span class="Identifier">var</span> q=sFormQuery; <span class="Comment">//sQuery__Global;</span>
+<span class="Comment">//		alert(q);</span>
+		<span class="Identifier">var</span> q1=q;
+<span class="Comment">//		alert(q1);</span>
+		<span class="Identifier">var</span> t=q1.substr(0,2);
+		<span class="Identifier">var</span> t2=q1.substr(0,3);
+		<span class="Statement">if</span>(t==<span class="Constant">'Д '</span>  || t==<span class="Constant">'д '</span> )
+			q1=substr(2);
+		<span class="Statement">if</span>(t2==<span class="Constant">'&quot;Д '</span> || t2==<span class="Constant">'&quot;д '</span>)
+			q1=<span class="Constant">'&quot;'</span>+q1.substr(3);
+
+		queryGoogle1=
+			<span class="Constant">'<a href="http://www.google.com/search?hl=&amp;output=search&amp;num=20&amp;q=">http://www.google.com/search?hl=&amp;output=search&amp;num=20&amp;q=</a>'</span>
+			+
+			encodeURI(q1)
+			<span class="Comment">//datagrapes</span>
+			;
+			<span class="Comment">//q='+q; //oQ.value;</span>
+		<span class="Comment">// --------- queryGoogle1='<a href="http://google.com/?q=">http://google.com/?q=</a>'+q; //oQ.value;</span>
+
+
+		<span class="Statement">if</span>(bSharp)<span class="Identifier">{</span>
+			queryGoogle1=sSharp+queryGoogle1;
+		<span class="Identifier">}</span>;
+
+
+		sCurrentGoogleQueryRealtime=queryGoogle1;
+<span class="Comment">//		alert(sCurrentGoogleQueryRealtime);</span>
+
+		<span class="Statement">return</span> queryGoogle1;
+
+
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> goGoogle(o)<span class="Identifier">{</span>
+<span class="Comment">//	alert(sLnk.value);</span>
+	<span class="Identifier">var</span> que=f.q.value;
+	<span class="Identifier">var</span> s=getGoGoogleLink(o,0,que);
+	o.href=s;
+		<span class="Comment">//'<a href="http://">http://</a>'+'google.com';</span>
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> setGooLink(oThis)<span class="Identifier">{</span>
+	<span class="Identifier">var</span> que=f.q.value;
+	<span class="Identifier">var</span> s=getGoGoogleLink(oThis,1,que);
+	oThis.href=s;
+
+<span class="Identifier">}</span>
+
+
+<span class="Identifier">function</span> esc(S)<span class="Identifier">{</span>
+	<span class="Statement">for</span>(<span class="Identifier">var</span> c,C,s=<span class="Constant">''</span>,i=0,n=S.length;i&lt;n;)<span class="Identifier">{</span>
+		c=separateCharCode(S.charCodeAt(i));
+<span class="Comment">/*</span>
+<span class="Comment">257 - Ё</span>
+<span class="Comment">262 - І</span>
+<span class="Comment">263 - Ї</span>
+<span class="Comment">321 - Г</span>
+<span class="Comment">260 - Є</span>
+<span class="Comment">*/</span>
+		C=S.charAt(i++);
+
+		c==257&amp;&amp;(C=<span class="Constant">'%b8'</span>);<span class="Comment">//ёЁ (charset:win1251)</span>
+		c==262&amp;&amp;(C=<span class="Constant">'%b3'</span>);<span class="Comment">//іІ</span>
+		c==263&amp;&amp;(C=<span class="Constant">'%bf'</span>);<span class="Comment">//їЇ</span>
+		c==321&amp;&amp;(C=<span class="Constant">'%b4'</span>);<span class="Comment">//ґҐ</span>
+		c==260&amp;&amp;(C=<span class="Constant">'%ba'</span>);<span class="Comment">//єЄ</span>
+
+		s=s+(C==<span class="Constant">'&quot;'</span>?C:
+			c&lt;192||c&gt;255 ?
+			(C.length==3?C:<span class="Statement">escape</span>(C)):
+			RUS.charAt(c-192));
+	<span class="Identifier">}</span> <span class="Comment">//escape function does not process correctly the '+' symbol</span>
+	<span class="Statement">return</span> s.split(<span class="Constant">'+'</span>).join(<span class="Constant">'%2B'</span>).split(<span class="Constant">'%20'</span>).join(<span class="Constant">'+'</span>);
+<span class="Identifier">}</span>
+
+
+<span class="Identifier">function</span> getDefinitionBody(s)<span class="Identifier">{</span>
+	<span class="Identifier">var</span> iA=s.indexOf(EMBRACE_A);
+	<span class="Identifier">var</span> N=s.length;
+	iA==-1 ? (iA=N):iA++;
+	<span class="Identifier">var</span> S=s.toLowerCase().substr(iA,N);
+	<span class="Comment">//`todo: provide correct definition's ending</span>
+	<span class="Comment">//	problem: HOW TO find m|(?! и) \xC4 |</span>
+
+	<span class="Identifier">var</span> sE=<span class="Constant">&quot;</span><span class="Special">\x</span><span class="Constant">00 &quot;</span>; <span class="Comment">//`endOfDef</span>
+	S=S.replace(<span class="Constant">/( и )д /</span>,<span class="Constant">&quot;$1&quot;</span>+sE);
+	S=S.replace(<span class="Constant">/(, )д /</span>,<span class="Constant">&quot;$1&quot;</span>+sE);
+	<span class="Identifier">var</span> k1=S.indexOf(<span class="Constant">' д '</span>); <span class="Comment">//`end of def(1)</span>
+	<span class="Identifier">var</span> k2=S.indexOf(<span class="Constant">'•••'</span>); <span class="Comment">//`end of def(2)</span>
+	<span class="Identifier">var</span> k=-1==k1?k2:-1==k2?k1:(k1&lt;k2?k1:k2);
+	k=-1==k?s.length:k+iA;
+	<span class="Statement">return</span> s.substr(0,k);
+<span class="Identifier">}</span>
+
+SCRAP_N=DL;<span class="Comment">//96;</span>
+SCRAP_L=128;
+SCRAP_K=SCRAP_L<span class="Comment">/*2048*/</span>-94/2;
+SCRAP_S=<span class="Constant">'^A^A'</span>;
+<span class="Statement">for</span>(i=0;i&lt;8;i++)SCRAP_S=SCRAP_S+SCRAP_S;
+
+<span class="Identifier">function</span> getSpaces(n)<span class="Identifier">{</span>
+	o=<span class="Constant">''</span>;
+	<span class="Statement">for</span>(<span class="Identifier">var</span> i=0;i&lt;n;i++)<span class="Identifier">{</span>
+		o=o+(i&amp;1?<span class="Constant">' '</span>:<span class="Constant">'&amp;nbsp;'</span>);
+	<span class="Identifier">}</span>
+	<span class="Statement">return</span> o;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> ifDef(s)<span class="Identifier">{</span>
+	nDef=s.indexOf(EMBRACE_A+<span class="Constant">'Д '</span>);
+	nDef==-1&amp;&amp;(nDef= s.indexOf(EMBRACE_A+<span class="Constant">'д '</span>));
+	bDef=nDef!=-1;
+	<span class="Comment">//if(bDef)</span>
+	<span class="Statement">return</span> bDef;
+
+	<span class="Comment">/*</span>
+<span class="Comment">	nDef=s.indexOf(EMBRACE_A+'!');</span>
+<span class="Comment">	nDef==-1&amp;&amp;(nDef= s.indexOf(EMBRACE_A+'!'));</span>
+<span class="Comment">	bDef=nDef!=-1;</span>
+<span class="Comment">	</span>
+<span class="Comment">	alert('ifDef(s)='+bDef);</span>
+<span class="Comment">	return 1||bDef;</span>
+<span class="Comment">//	alert(bDef);</span>
+<span class="Comment">	*/</span>
+
+
+
+<span class="Identifier">}</span>
+
+
+
+<span class="Comment">//	alert(bRusEngUkrLetter('я'.charCodeAt(0)));</span>
+<span class="Comment">/*function setBr(s,i){</span>
+<span class="Comment">	var bStart=1;</span>
+<span class="Comment">	for(;i;i--,bStart=0){</span>
+<span class="Comment">		c=s.charAt(i);</span>
+<span class="Comment">		var b=bRusEngUkrLetter(c);</span>
+<span class="Comment">//		ale('&lt;xmp&gt;'+s.length+' '+i+' ;bRus('+c+')='+b+'&lt;/xmp&gt;');</span>
+<span class="Comment">		if(!b)if(!bStart||(c!=','&amp;&amp;c!=';'&amp;&amp;c!='.'&amp;&amp;c!='-'))</span>
+<span class="Comment">			if(c==' ')return s.substr(0,i)+'&lt;br&gt;'+s.substr(i+1);</span>
+<span class="Comment">			else	return s.substr(0,i+1)+'&lt;br&gt;'+s.substr(i+1);</span>
+<span class="Comment">	}</span>
+<span class="Comment">	return '???[ERROR_IN_JS]';</span>
+<span class="Comment">}</span>
+<span class="Comment">*/</span>
+
+focN=0;
+<span class="Identifier">function</span> focMainLink()<span class="Identifier">{</span>
+	<span class="Statement">return</span>;
+
+	<span class="Statement">if</span>(!focN++)<span class="Identifier">{</span>
+		<span class="Identifier">var</span> o=d.documentElement.getElementsByTagName(<span class="Constant">'a'</span>);
+		<span class="Identifier">var</span> iLinkNum=7;
+<span class="Comment">//		alert((typeof o)+(typeof o[0]));</span>
+		<span class="Statement">if</span>(<span class="Constant">'undefined'</span>!=<span class="Statement">typeof</span> o &amp;&amp;
+			<span class="Constant">'undefined'</span>!=<span class="Statement">typeof</span> o<span class="Identifier">[</span>iLinkNum<span class="Identifier">]</span>)
+			o<span class="Identifier">[</span>iLinkNum<span class="Identifier">]</span>.focus();
+	<span class="Identifier">}</span>;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> modifiedSyntax(q)<span class="Identifier">{</span>
+	q=q.toLowerCase();
+	<span class="Identifier">var</span> t=q.substr(0,1);
+	<span class="Statement">if</span>(t!=<span class="Constant">'~'</span>     <span class="Comment">/*&amp;&amp;t!='`'*/</span>
+				)
+				<span class="Identifier">{</span>
+
+<span class="Comment">// ----------------- obsolete definition query format --------------------</span>
+<span class="Comment">//		q='&quot;д '+q.substr(0&amp;&amp;1)+'&quot;'</span>
+<span class="Comment">// ---------------- /obsolete definition query format --------------------</span>
+		<span class="Identifier">}</span>
+		<span class="Statement">else</span> <span class="Identifier">{}</span>;<span class="Comment">//{q=q.substr(1);}</span>
+	<span class="Statement">return</span> q;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> purgeQuery(s)<span class="Identifier">{</span> <span class="Comment">//remove a)initial b)subq c)closing spaces</span>
+
+
+	<span class="Comment">//БАГИ: пока не обнаружены</span>
+	<span class="Comment">//  </span>
+
+	<span class="Identifier">var</span> sIn=s;
+<span class="Comment">//	alert('//purgeQuery: '+s);</span>
+
+
+	<span class="Identifier">var</span> c,S=<span class="Constant">''</span>,n=s.length;
+	<span class="Identifier">var</span> bDelSpace=1;
+
+	s=s.split(<span class="Constant">&quot;'&quot;</span>).join(<span class="Constant">'&quot;'</span>);
+
+<span class="Comment">//	alert(s);</span>
+
+	<span class="Comment">//Удаляет лишние пробелы!!</span>
+
+	<span class="Statement">for</span>(<span class="Identifier">var</span> i=0;i&lt;n;i++)<span class="Identifier">{</span>
+		c=s.charAt(i);
+		<span class="Statement">if</span>(c==<span class="Constant">'&quot;'</span>)
+			bDelSpace=0;
+
+
+		<span class="Statement">if</span>(c==<span class="Constant">' '</span>)<span class="Identifier">{</span>
+				<span class="Statement">if</span>(!bDelSpace || (i==n-1||i==0||(
+								s.charAt(i+1)==<span class="Constant">'&quot;'</span>
+								&amp;&amp; s.charAt(i-1)==<span class="Constant">'&quot;'</span>
+							)
+						)
+					)
+				<span class="Identifier">{</span>S=S+<span class="Constant">' '</span><span class="Identifier">}</span>;
+
+			bDelSpace=1;
+		<span class="Identifier">}</span>
+		<span class="Statement">else</span><span class="Identifier">{</span>
+			<span class="Comment">//if(c==&quot;'&quot;)c='&quot;';</span>
+			S=S+c;
+			bDelSpace=0;
+		<span class="Identifier">}</span>
+
+	<span class="Identifier">}</span><span class="Comment">//end of for</span>
+
+
+	<span class="Identifier">var</span> l1=S.length-1;
+	<span class="Identifier">var</span> sO= S.charAt(l1)!=<span class="Constant">' '</span>
+		?S:S.substr(0,l1);
+
+<span class="Comment">//	alert(sO);</span>
+
+	<span class="Statement">if</span>(sO.charAt(0)==<span class="Constant">' '</span>)sO=sO.substr(1);
+	<span class="Identifier">var</span> l2=sO.length;
+	<span class="Statement">if</span>(sO.charAt(l2-1)==<span class="Constant">' '</span>)<span class="Identifier">{</span>
+<span class="Comment">//		alert('в конце - пробел!');</span>
+		sO=sO.substring(0,l2-1);
+		<span class="Identifier">}</span>
+
+	<span class="Comment">//{{{{{{{{{{{{{{{{{{</span>
+<span class="Comment">//	var l3=sO.length;</span>
+<span class="Comment">//	alert('sO=['+sO+']; l3='+l3+'; ['+sO.charAt(l3-1) +']');</span>
+<span class="Comment">//	//sample query=   &quot;  он    &quot; пусть здесь однако &quot; она&quot;    &quot;он&quot;   </span>
+	<span class="Comment">//}}}}}}}}}}}}}}}}}}</span>
+
+	<span class="Statement">return</span> sO;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> correctQ()<span class="Identifier">{</span>
+	q=f.q.value;
+	<span class="Statement">if</span>(-1!=q.indexOf(<span class="Constant">'`'</span>))
+		f.q.value=q.split(<span class="Constant">'`'</span>).join(<span class="Constant">'~'</span>);
+	<span class="Statement">if</span>(-1!=q.indexOf(<span class="Special">'\\'</span>))
+		f.q.value=q.split(<span class="Special">'\\'</span>).join(<span class="Constant">'~'</span>);
+	<span class="Statement">if</span>(
+			-1!=q.indexOf(<span class="Constant">'&quot;'</span>) ||
+			-1!=q.indexOf(<span class="Constant">&quot;'&quot;</span>) ||
+			-1!=q.indexOf(<span class="Constant">&quot;*&quot;</span>) ||
+			-1!=q.indexOf(<span class="Constant">&quot;?&quot;</span>)
+			)
+			 <span class="Comment">//если нафдена причина расшир. поиска</span>
+		<span class="Statement">if</span>(q.substr(0,1)!=<span class="Constant">'~'</span>)
+			f.q.value=<span class="Constant">'~'</span>+q;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> queryUnderscore(s)<span class="Identifier">{</span>
+	<span class="Statement">return</span> s.replace(<span class="Constant">/[\x20\x2B]/g</span>,<span class="Constant">'_'</span>);
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> go()<span class="Identifier">{</span>
+	correctQ();
+	r=f.r.value;
+	i=f.i.value;
+	l=f.l.value;
+	<span class="Identifier">var</span> u=f.u.checked?<span class="Constant">'on'</span>:0;
+<span class="Comment">//	alert(u);</span>
+<span class="Comment">//	alert('purge{');</span>
+	q=purgeQuery(q);
+	<span class="Statement">if</span>(q==<span class="Constant">''</span>||q==<span class="Constant">'~'</span>)<span class="Identifier">{</span>
+		<span class="Statement">alert</span>(<span class="Constant">&quot;Введите</span><span class="Special">\n</span><span class="Constant">слово/понятие/имя собственное</span><span class="Special">\n</span><span class="Constant">для поиска по словарям и энциклопедиям&quot;</span>);
+		<span class="Statement">return</span> <span class="Constant">false</span><span class="Identifier">}</span>
+	q=modifiedSyntax(q);
+<span class="Comment">//	alert('correctQ, purgeQuery, modifiedSyntax:'+&quot;\n&quot;+q);</span>
+	t=<span class="Statement">location</span>.href;
+	n=t.indexOf(<span class="Constant">'?'</span>);
+	<span class="Statement">if</span>(n&gt;0)t=t.substr(0,n);
+<span class="Comment">//	alert('t='+t);</span>
+	<span class="Identifier">var</span> baseSeaUrl=
+		t.replace(<span class="Constant">'/!index.jsp'</span>,quantorSearchPageName1);
+		<span class="Comment">// a bug expected here</span>
+	<span class="Identifier">var</span> lBaseSeaUrl=baseSeaUrl.length;
+	<span class="Identifier">var</span> bStdHomeIndex=<span class="Constant">'/'</span>==baseSeaUrl.substr(lBaseSeaUrl-1,lBaseSeaUrl);
+	<span class="Statement">if</span>(bStdHomeIndex)
+		baseSeaUrl=baseSeaUrl+quantorSearchPageName; <span class="Comment">//'se_arch.jsp';</span>
+<span class="Comment">//	baseSeaUrl=baseSeaUrl.replace('/$','__/$__')</span>
+<span class="Comment">//	alert('baseSeaUrl='+baseSeaUrl);</span>
+<span class="Comment">//	alert('t='+t+&quot;\nbaseSeaUrl=&quot;+baseSeaUrl);</span>
+
+	<span class="Identifier">var</span> escapedQ=q.charAt(0)!=<span class="Constant">'~'</span>?esc(q):
+		q.charAt(0)+esc(q.substr(1));
+<span class="Comment">//	alert(q+&quot;\n&quot;+escapedQ);</span>
+
+	<span class="Identifier">var</span> que=baseSeaUrl+<span class="Constant">'?q='</span>+
+		escapedQ+ <span class="Comment">//esc(q)+</span>
+		(l==DL||l==<span class="Constant">''</span>?<span class="Constant">''</span>:<span class="Constant">'&amp;l='</span>+l)+
+		(i==DI||i==<span class="Constant">''</span>?<span class="Constant">''</span>:<span class="Constant">'&amp;i='</span>+i)+
+		(r==DR||r==<span class="Constant">''</span>?<span class="Constant">''</span>:<span class="Constant">'&amp;r='</span>+r)+
+		(u==DU?<span class="Constant">''</span>:<span class="Constant">'&amp;u='</span>+u)
+		;
+<span class="Comment">//	alert('que='+que);</span>
+<span class="Comment">//	alert(que);</span>
+<span class="Comment">//alert(que);</span>
+<span class="Comment">//	que[0]='1';</span>
+	que=queryUnderscore(que);
+
+<span class="Comment">//	que.replace(' ','_');que.replace('+','_');</span>
+<span class="Comment">//alert(que);</span>
+	<span class="Statement">location</span>.href=que;
+	<span class="Statement">return</span> <span class="Constant">false</span>;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> setDefaultValues()<span class="Identifier">{</span>
+<span class="Comment">//	return;</span>
+	i=f.i.value;
+	l=f.l.value;
+<span class="Comment">//	u=f.u.value;</span>
+	<span class="Statement">if</span>(i==<span class="Constant">''</span>)f.i.value=DI;
+	<span class="Statement">if</span>(l==<span class="Constant">''</span>)f.l.value=DL;
+<span class="Comment">//	if(u=='')f.u.value=DU;</span>
+<span class="Identifier">}</span>
+
+
+
+
+
+
+
+
+
+
+
+purifyDefString__isDefinition=0;
+purifyDefString__isDefinition_value=<span class="Constant">''</span>;
+bPurifyDefStringFocused=0;
+
+
+
+
+
+
+
+
+<span class="Identifier">function</span> purifyDefStringFocus()<span class="Identifier">{</span>
+		<span class="Identifier">var</span> q=d.f.q;
+<span class="Comment">//Firefox only:		alert(q.value);</span>
+		<span class="Identifier">var</span> sD=purifyDefString__isDefinition_value;
+		<span class="Identifier">var</span> s=<span class="Comment">/*'~'+*/</span>sD;
+
+	<span class="Statement">if</span>(!bPurifyDefStringFocused)
+	<span class="Statement">if</span>(purifyDefString__isDefinition)<span class="Identifier">{</span>
+<span class="Comment">//		alert('focus!');</span>
+
+		q.focus();
+		q.value=s;
+		<span class="Identifier">var</span> t=d.title;
+		d.title=
+			s+t.substr(t.indexOf(<span class="Constant">' - '</span>));
+		t=q.createTextRange();
+		t.findText(sD);
+		t.select();
+		sQuery__GlobalPlain=s;
+		bPurifyDefStringFocused=1;
+		<span class="Statement">return</span>;
+		<span class="Identifier">}</span>
+	<span class="Statement">else</span><span class="Identifier">{</span>
+		<span class="Statement">if</span>(<span class="Constant">''</span>!=q.value)<span class="Identifier">{</span>
+			<span class="Identifier">var</span> s=q.value;
+<span class="Comment">//			alert('title='+s);</span>
+			q.focus();
+			t=q.createTextRange();
+			<span class="Statement">if</span>(s.charAt(0)==<span class="Constant">'~'</span>)s=s.substr(1);
+			t.findText(s);
+			t.select();
+			d.title=<span class="Constant">'~'</span>+d.title;
+<span class="Comment">//			alert(s+&quot;\n&quot;+d.title);</span>
+		<span class="Identifier">}</span>
+			<span class="Comment">//d.title='~'+t;</span>
+	<span class="Identifier">}</span>
+<span class="Identifier">}</span>
+<span class="Identifier">function</span> purifyDefString(v)<span class="Identifier">{</span>
+<span class="Comment">//	alert('purifyDefString'+&quot;\n&quot;+v);</span>
+	<span class="Statement">if</span>(v.substring(0,3)==<span class="Constant">'&quot;д '</span>||
+	   v.substring(0,3)==<span class="Constant">'&quot;Д '</span>)<span class="Identifier">{</span>
+	   	purifyDefString__isDefinition=1;
+		<span class="Identifier">var</span> sD=v.substring(3,v.length-1);
+		<span class="Comment">//alert(&quot;[&quot;+sD+&quot;]&quot;);</span>
+		<span class="Identifier">var</span> sL=
+			sD.length;
+			<span class="Comment">//v.length;</span>
+		<span class="Statement">if</span>(sL&gt;2)<span class="Identifier">{</span>
+			<span class="Identifier">var</span> tc=sD.charAt(sL-1);
+			<span class="Comment">//alert(&quot;{&quot;+tc+&quot;}&quot;);</span>
+			<span class="Statement">if</span>(tc==<span class="Constant">' '</span>)
+				sD=sD.substr(sD,sL-1);
+			<span class="Comment">//alert(&quot;NEW: [&quot;+sD+&quot;]&quot;);</span>
+		<span class="Identifier">}</span>
+		purifyDefString__isDefinition_value=sD;
+<span class="Comment">//		purifyDefStringFocus();</span>
+		<span class="Statement">return</span> <span class="Comment">/*'~'+*/</span>sD;
+	<span class="Identifier">}</span>
+	<span class="Statement">return</span> v;
+<span class="Identifier">}</span>
+
+
+<span class="Identifier">function</span> purgeQueryCommon(origq, bProcessGlobalQ)<span class="Identifier">{</span>
+	<span class="Statement">if</span>(bProcessGlobalQ)
+		<span class="Identifier">{</span>sOrigQuery__Global=origq;<span class="Identifier">}</span>
+	<span class="Identifier">var</span> q1=
+		purgeQuery(origq);
+	<span class="Statement">if</span>(bProcessGlobalQ)<span class="Identifier">{</span>
+		sQuery__GlobalPlain=sQuery__Global=q1;
+	<span class="Identifier">}</span>
+<span class="Comment">//	return q1;</span>
+
+	q1a=purifyDefString(q1);
+	<span class="Statement">if</span>(bProcessGlobalQ)<span class="Identifier">{</span>
+		sQuery__Global=q1a;
+	<span class="Identifier">}</span>
+	<span class="Statement">return</span> q1a;
+<span class="Identifier">}</span>
+
+
+<span class="Identifier">function</span> isDefi(s,l)<span class="Identifier">{</span>
+	<span class="Statement">if</span>(!l)<span class="Statement">return</span> 0;
+	<span class="Identifier">var</span> c;
+<span class="Comment">//	alert('s='+s+' l='+l);</span>
+	<span class="Statement">if</span>(l&gt;3)<span class="Identifier">{</span>
+		<span class="Identifier">var</span> s1=<span class="Constant">'&quot;д '</span>;
+		<span class="Identifier">var</span> s1a=<span class="Constant">'&quot;д+'</span>;
+		<span class="Identifier">var</span> s2=<span class="Constant">'&quot;Д '</span>;
+		<span class="Identifier">var</span> s2a=<span class="Constant">'&quot;Д+'</span>;
+		<span class="Statement">if</span>( (	s.substr(0,3)==s1 ||
+				s.substr(0,3)==s2 ||
+				s.substr(0,3)==s1a||
+				s.substr(0,3)==s2a
+				)
+			&amp;&amp;
+			(s.charAt(l-1)==<span class="Constant">'&quot;'</span>)
+		)
+<span class="Comment">//			alert('Def! :)');</span>
+		<span class="Statement">return</span> 1;
+	<span class="Identifier">}</span>
+	<span class="Statement">if</span>(l&gt;2)<span class="Identifier">{</span>
+		<span class="Identifier">var</span> s1=<span class="Constant">'&quot;!'</span>;
+<span class="Comment">//		alert(s.substr(0,2));</span>
+		<span class="Statement">if</span>( (s.substr(0,2)==s1)
+			&amp;&amp;
+			(s.charAt(l-1)==<span class="Constant">'&quot;'</span>)
+		)
+<span class="Comment">//alert('def, (!) style');</span>
+		<span class="Statement">return</span> 2;
+	<span class="Identifier">}</span>
+<span class="Comment">//	alert('not def');</span>
+	<span class="Statement">return</span> 0;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> purgeGlobalQuery()<span class="Identifier">{</span>
+<span class="Comment">//	alert(sQuery__Global);</span>
+	<span class="Identifier">var</span> s=sQuery__Global;
+	<span class="Identifier">var</span> l=sQuery__Global.length;
+	<span class="Identifier">var</span> b=isDefi(s,l);
+
+<span class="Comment">//	alert(sQuery__Global);</span>
+	<span class="Statement">if</span>(b==1)
+		sQuery__Global = <span class="Constant">'&quot;д '</span>+sQuery__Global.substr(3);
+	<span class="Statement">if</span>(b==2)
+		sQuery__Global = <span class="Constant">'&quot;д '</span>+sQuery__Global.substr(2);
+	sQuery__Global__bIfDef=b?1:0;
+<span class="Comment">//	alert('sQuery__Global='+sQuery__Global);</span>
+<span class="Comment">//	alert('sQuery__Global=«'+sQuery__Global+'» bDef:'+sQuery__Global__bIfDef);</span>
+<span class="Comment">//	purgeQueryCommon(sQuery__Global, 'bProcessGlobalQ');</span>
+
+<span class="Identifier">}</span>
+
+
+
+<span class="Identifier">function</span> init(i)<span class="Identifier">{</span>
+<span class="Comment">//	s0.innerHTML+=' &lt;span style=background:red&gt;test0&lt;/span&gt; ';</span>
+<span class="Comment">//	s2.innerHTML+=' &lt;span style=background:red&gt;test2&lt;/span&gt; ';</span>
+	<span class="Identifier">var</span> t,q=d.f.q;
+	<span class="Comment">//modification time: 4/19/2012 11:59PM</span>
+<span class="Comment">///	alert(d.f);</span>
+
+
+<span class="Comment">//	p__urgeGlobalQuery();</span>
+
+
+	<span class="Identifier">var</span> sQuery2=sQuery__Global;<span class="Comment">//sOrigQuery__Global;</span>
+<span class="Comment">//	sQuery2=encoding_convWinUtf8To1251(sQuery2);</span>
+<span class="Comment">//	q.value=sQuery2;</span>
+	setDefaultValues();
+	<span class="Identifier">var</span> v=sQuery2;<span class="Comment">//q.value;</span>
+	sOrigQuery__Global=sQuery2; <span class="Comment">//не нужно</span>
+
+<span class="Comment">//	sQuery__GlobalPlain=v;</span>
+<span class="Comment">//	var bDef=0;</span>
+
+<span class="Comment">/*	if(v.substring(0,3)=='&quot;д '){</span>
+<span class="Comment">		var sD=v.substring(3,v.length-1);</span>
+<span class="Comment">		var s=purifyDefString(v);</span>
+<span class="Comment">		var sD=v.substring(3,v.length-1);</span>
+<span class="Comment">		//alert(&quot;[&quot;+sD+&quot;]&quot;);</span>
+<span class="Comment">		var sL=</span>
+<span class="Comment">			sD.length;</span>
+<span class="Comment">			//v.length;</span>
+<span class="Comment">		if(sL&gt;2){</span>
+<span class="Comment">			var tc=sD.charAt(sL-1);</span>
+<span class="Comment">			//alert(&quot;{&quot;+tc+&quot;}&quot;);</span>
+<span class="Comment">			if(tc==' ')</span>
+<span class="Comment">				sD=sD.substr(sD,sL-1);</span>
+<span class="Comment">			//alert(&quot;NEW: [&quot;+sD+&quot;]&quot;);</span>
+<span class="Comment">		}</span>
+<span class="Comment">		var s='';</span>
+<span class="Comment">		// s='~'+sD;</span>
+
+<span class="Comment">*/</span>
+
+	<span class="Identifier">var</span> bSharp=v==<span class="Constant">''</span>;
+	<span class="Statement">if</span>(purifyDefString__isDefinition)
+		<span class="Statement">return</span>; <span class="Comment">//'q' focus is set already;</span>
+
+	sQuery__GlobalPlain=v;
+	<span class="Statement">if</span>(i&gt;1)<span class="Statement">return</span>; <span class="Comment">//for some reason i=1+iNoOfResults</span>
+
+	q.focus();
+	<span class="Statement">if</span>(bSharp)<span class="Identifier">{</span>
+		<span class="Identifier">var</span> sSharp=<span class="Comment">/*'~'*/</span>   <span class="Constant">''</span>;
+		q.value=sSharp;
+		sQuery__GlobalPlain=sSharp;
+	<span class="Identifier">}</span>
+	<span class="Statement">else</span><span class="Identifier">{</span>
+		t=q.createTextRange();
+		<span class="Statement">if</span>(<span class="Constant">'undefined'</span>!=<span class="Statement">typeof</span> t)t.findText(<span class="Constant">' '</span>);
+		<span class="Statement">if</span>(<span class="Constant">'undefined'</span>!=<span class="Statement">typeof</span> t)t.select();
+		<span class="Comment">//` variant: txtRange.moveStart(&quot;character&quot;,1);txtRange.scrollIntoView();</span>
+	<span class="Identifier">}</span>
+<span class="Comment">//#debug</span>
+<span class="Comment">/*</span>
+<span class="Comment">	if(sQuery__Global!='')</span>
+<span class="Comment">		alert('[#debug] '+sQuery__Global);</span>
+<span class="Comment">*/</span>
+
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> onAdvancedSearch()<span class="Identifier">{</span>
+<span class="Comment">//	alert(typeof iExt.style.display);</span>
+	<span class="Identifier">var</span> o=iExt.style;
+	o.display==<span class="Constant">'none'</span>?
+		o.display=<span class="Constant">'inline'</span>:
+		o.display=<span class="Constant">'none'</span>;
+	<span class="Statement">return</span> <span class="Constant">false</span>;
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> showNoOfMatchedResults(nResults,timeMS)<span class="Identifier">{</span>
+	<span class="Comment">// ф-я вызывается классом Client.java.</span>
+	searchProceesedTimeMS=timeMS;
+	nCitationsTotal=nResults;
+<span class="Comment">//	writeHtmlNoOfResults();</span>
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> ex()<span class="Identifier">{</span>
+	<span class="Comment">/*	DI=-8; DL=96;*/</span>
+
+	<span class="Comment">//1280x800</span>
+	f.i.value=-8,
+	f.l.value=214-14; <span class="Comment">//two lines</span>
+	f.i.value=-8+125+20,
+	f.l.value=214+125-14; <span class="Comment">//two lines</span>
+
+	<span class="Comment">//1024x600</span>
+	f.i.value=DI;<span class="Comment">//-8+125+20,</span>
+	f.l.value=DL;214+125-14; <span class="Comment">//two lines</span>
+
+<span class="Identifier">}</span>
+
+
+<span class="Identifier">function</span> getHP(f) <span class="Identifier">{</span>
+	<span class="Identifier">var</span> sUrl=<span class="Constant">'<a href="http://">http://</a>'</span>+<span class="Statement">location</span>.hostname+
+		<span class="Comment">//':'+HTTP_PORT+</span>
+		<span class="Statement">location</span>.pathname;
+<span class="Comment">//	alert((f==this)+&quot;\n&quot;+(f==document)+&quot;\n&quot;+(f==window));</span>
+<span class="Comment">//	oHomePage.setHomePage(sUrl);</span>
+	f.style.behavior=<span class="Constant">'url(#default#homepage)'</span>;
+<span class="Comment">//	setHomePage(url);</span>
+	<span class="Statement">return</span> sUrl;
+	<span class="Comment">//else { location.href='/doc/startpage.shtml' };</span>
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> fnSelect(sourceHtmlOfiHomePageHTMLText)<span class="Identifier">{</span>
+	<span class="Identifier">var</span> s=sourceHtmlOfiHomePageHTMLText;
+
+<span class="Comment">//	var oWorkItem=event.srcElement;</span>
+<span class="Comment">//	if((oWorkItem.tagName!=&quot;UL&quot;)&amp;&amp;(oWorkItem.tagName!=&quot;LI&quot;)){</span>
+	<span class="Statement">alert</span>(<span class="Constant">&quot;fnSelect(): &quot;</span>+s.substring(0,80)+<span class="Constant">'...'</span>);
+	<span class="Comment">//.innerHTML</span>
+
+
+<span class="Comment">//alert(&quot;Adding &quot; + oWorkItem.outerHTML + &quot; to the list.&quot;);</span>
+<span class="Comment">//	oScratch.innerHTML+=oWorkItem.outerHTML + &quot;&lt;br&gt;&quot;;</span>
+<span class="Comment">//	event.returnValue=false;</span>
+
+<span class="Identifier">}</span>
+
+<span class="Identifier">function</span> showHideResultsSources()<span class="Identifier">{</span>
+<span class="Comment">//showHideSources</span>
+	<span class="Statement">if</span>(bShowHideResultsSources_visible==0)<span class="Identifier">{</span>
+		idCiteListVis.style.visibility=<span class="Constant">'visible'</span>;
+		idCiteListVis.style.display=<span class="Constant">'inline'</span>;
+		bShowHideResultsSources_visible=1;
+	<span class="Identifier">}</span>
+	<span class="Statement">else</span> <span class="Identifier">{</span>
+		idCiteListVis.style.visibility=<span class="Constant">'hidden'</span>;
+		bShowHideResultsSources_visible=0;
+	<span class="Identifier">}</span>
+<span class="Identifier">}</span>
+</pre>
+</body>
+</html>
+<!-- vim: set foldmethod=manual : -->
